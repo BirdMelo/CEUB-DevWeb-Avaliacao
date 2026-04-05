@@ -1,7 +1,7 @@
 #PAGINA INICIAL DO PROJETO
 
 from flask import Flask, render_template
-from .config import Config
+from src.config import Config
 from .extentions import db, migrate
 
 def create_app():
@@ -13,13 +13,13 @@ def create_app():
     migrate.init_app(app, db)
 
     # blueprints
-    from .blueprints.pages import bp as pages_bp
-    from .blueprints.tickets import bp as tickets_bp
-    from .blueprints.users import bp as users_bp
+    # from .blueprints.pages import bp as pages_bp
+    # from .blueprints.tickets import bp as tickets_bp
+    # from .blueprints.users import bp as users_bp
 
-    app.register_blueprint(pages_bp)
-    app.register_blueprint(tickets_bp, url_prefix="/tickets")
-    app.register_blueprint(users_bp, url_prefix="/users")
+    # app.register_blueprint(pages_bp)
+    # app.register_blueprint(tickets_bp, url_prefix="/tickets")
+    # app.register_blueprint(users_bp, url_prefix="/users")
 
     # erro 404
     @app.errorhandler(404)
