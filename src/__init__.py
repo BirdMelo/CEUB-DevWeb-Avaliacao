@@ -13,13 +13,12 @@ def create_app():
     migrate.init_app(app, db)
 
     # blueprints
-    # from .blueprints.pages import bp as pages_bp
-    # from .blueprints.tickets import bp as tickets_bp
-    # from .blueprints.users import bp as users_bp
+    from .blueprints.home import bp as home_bp
+    from .blueprints.user import bp as user_bp
 
-    # app.register_blueprint(pages_bp)
-    # app.register_blueprint(tickets_bp, url_prefix="/tickets")
-    # app.register_blueprint(users_bp, url_prefix="/users")
+    # Registrando rotas dos blueprints no app principal
+    app.register_blueprint(home_bp)
+    app.register_blueprint(user_bp, url_prefix='/user')
 
     # erro 404
     @app.errorhandler(404)

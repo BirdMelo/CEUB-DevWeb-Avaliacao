@@ -21,8 +21,30 @@ O banco de dados (`db_rotinas`) foi modelado de forma relacional e simples, comp
 * **historico_acoes:** Tabela de log e auditoria. Salva o histórico de eventos importantes (`tipo_acao`), vinculando a ação ao usuário e à rotina correspondente, além do momento exato do ocorrido.
 
 ## Lista de Rotas
-
+* **home (/)**: página inicial para registrar usuário ou fazer login
+### Usuário
+* **register (/user/register)**: página para fazer cadastro do usuário
+* **login (/user/login)**: página pra entrar com uma conta já existente
+* **update (/user/update)**: página para alterar os dados do usuário
+* **delete (/user/delete/{int:user_id})**: página para deletar o usuário
 ## Explicação das Regras de Negócio
+
+O sistema foi desenhado para garantir a consistência no acompanhamento das rotinas e manter um registro confiável de auditoria. As principais regras de negócio implementadas são:
+
+1. **Unicidade de Execução Diária:** * Uma rotina só pode ser registrada como "concluída" ou "executada" uma única vez por dia.
+   * O banco de dados garante essa integridade através de uma restrição única (`UniqueConstraint`) cruzando o ID da rotina e a data da execução. Tentativas de registrar a mesma rotina duas vezes no mesmo dia serão bloqueadas.
+
+2. **Validação de Status da Rotina (Ativa/Inativa):**
+   * Apenas rotinas com o status "ativo" (`is_active = True`) podem receber novos registros de execução.
+   * Rotinas desativadas ou pausadas servem apenas para consulta de histórico, evitando inconsistências nos dados de progresso atual do usuário.
+
+3. **Auditoria Contínua (Trilha de Logs):**
+   * Nenhuma alteração crítica pode passar despercebida. Todas as ações do tipo `CREATE` (Criação), `UPDATE` (Atualização) e `DELETE` (Remoção) realizadas no sistema devem obrigatoriamente gerar um registro imutável na tabela `historico_acoes`.
+   * Esse registro guarda o autor da ação, qual rotina foi afetada (se aplicável), a descrição do evento e o carimbo exato de data e hora (`created_at`).
+
+4. **Integridade Relacional (Exclusão Segura):**
+   * Para evitar registros "órfãos" no banco de dados, a exclusão de um usuário não pode ser feita de forma arbitrária.
+   * Ao deletar um usuário, o sistema deve garantir que o histórico de ações atrelado a ele seja devidamente tratado ou limpo primeiro, respeitando as chaves estrangeiras (Foreign Keys).
 
 ## Instruções para Execução do Projeto
 

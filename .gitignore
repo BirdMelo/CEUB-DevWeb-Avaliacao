@@ -1,2 +1,4 @@
 .env
 venv_desenvolvimento/
+__pycache__/
+instance/
