@@ -3,10 +3,12 @@
 from flask import Flask, render_template
 from src.config import Config
 from .extentions import db, migrate
+import os
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
     # inicializa ORM e migrations
     db.init_app(app)

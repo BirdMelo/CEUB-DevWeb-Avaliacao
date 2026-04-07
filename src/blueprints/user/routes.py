@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, session
 
 from src.models import ActionsType, HistoryActions, User
 from src.extentions import db
@@ -31,7 +31,8 @@ def login():
         nome_digitado = request.form.get('name')
         user = User.query.filter_by(name=nome_digitado).first()
         if user and user.is_active:
-            return 'Login successful!'
+            session['user_id'] = user.id
+            return redirect(url_for('user.dashboard'))
         elif user and not user.is_active:
             return 'Esse usuário está inativo. Por favor, entre em contato com o suporte.'
         else:
@@ -68,3 +69,20 @@ def delete_user(user_id):
     db.session.add(action)
     db.session.commit()
     return f"Usuário {user.name} desativado com sucesso! Ele não pode mais fazer login."
+
+# ESPAÇO DO USUÁRIO (DASHBOARD)
+
+@bp.route('/dashboard')
+def dashboard():
+    if 'user_id' not in session:
+        return redirect(url_for('user.login'))
+    user = User.query.get_or_404(session['user_id'])
+    return render_template('user/dashboard.html', user=user)
+
+@bp.route('/logout')
+def logout():
+    # Remove o ID do usuário da sessão do navegador
+    session.pop('user_id', None)
+    
+    # Redireciona ele de volta para a página inicial
+    return redirect(url_for('home.index'))

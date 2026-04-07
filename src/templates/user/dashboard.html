@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Painel</title>
+</head>
+<body>
+    <h1>Área do Usuário</h1>
+    
+    <h2>Bem-vindo(a) de volta, {{ user.name }}!</h2>
+    <p>Conta criada em: {{ user.created_at.strftime('%d/%m/%Y') }}</p>
+
+    <hr>
+    
+    <h3>Suas Rotinas</h3>
+    <p>Ainda não há rotinas cadastradas.</p>
+    
+    <hr>
+    
+    <a href="{{ url_for('user.logout') }}" style="color: red;">Sair da Conta</a>
+    
+</body>
+</html>

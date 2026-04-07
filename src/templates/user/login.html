@@ -17,8 +17,8 @@
     </form>
 
     <br>
-    <a href="/register">Ainda não tem conta? Registre-se aqui.</a>
+    <a href="{{ url_for('user.register') }}">Ainda não tem conta? Registre-se aqui.</a>
     <br>
-    <a href="/">Voltar para o Início</a>
+    <a href="{{ url_for('home.index') }}">Voltar para o Início</a>
 </body>
 </html>

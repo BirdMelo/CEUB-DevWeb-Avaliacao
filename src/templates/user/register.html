@@ -17,8 +17,8 @@
     </form>
 
     <br>
-    <a href="/login">Já tem uma conta? Faça login aqui.</a>
+    <a href="{{ url_for('user.logout') }}">Já tem uma conta? Faça login aqui.</a>
     <br>
-    <a href="/">Voltar para o Início</a>
+    <a href="{{ url_for('home.index') }}">Voltar para o Início</a>
 </body>
 </html>
