@@ -11,7 +11,7 @@
     <form method="POST" action="{{ url_for('task.create_task') }}">
         
         <div>
-            <label for="name">Nome da Rotina:</label><br>
+            <label for="name">Nome da Rotina*:</label><br>
             <input type="text" id="name" name="name" maxlength="60" required>
         </div>
         <br>
@@ -21,10 +21,16 @@
             <textarea id="description" name="description" maxlength="255" rows="3" cols="30"></textarea>
         </div>
         <br>
+
+        <div>
+            <label for="deadLine">Início (Opcional):</label><br>
+            <input type="datetime-local" id="deadLine" name="deadLine">
+        </div>
+        <br>
         
         <div>
-            <label for="deadLine">Prazo Final / Data de Fim (Opcional):</label><br>
-            <input type="datetime-local" id="deadLine" name="deadLine">
+            <label for="deadLine">Prazo Final*:</label><br>
+            <input type="datetime-local" id="deadLine" name="deadLine" required>
         </div>
         <br>
         

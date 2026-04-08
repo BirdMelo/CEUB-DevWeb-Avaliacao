@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import session, redirect, render_template, url_for, request
+from flask import session, redirect, render_template, url_for, request, flash
 from src.models import Task, HistoryActions, ActionsType, User
 from src.extentions import db
 from . import bp
@@ -15,6 +15,11 @@ def create_task():
         name = request.form.get('name')
         description = request.form.get('description')
         deadline = request.form.get('deadLine')
+
+        # Verifica se os campos obrigatórios estão preenchidos
+        if not name or not deadline:
+            flash('Precisa preencher todos os campos obrigatórios.', 'error')
+            return redirect(url_for('task.create_task'))
 
         user_id = session['user_id']
         deadline_date = None
@@ -55,6 +60,12 @@ def update_task(task_id):
         new_name = request.form.get('name')
         new_description = request.form.get('description')
         new_deadline = request.form.get('deadLine')
+
+        # Verifica se os campos obrigatórios estão preenchidos
+        if not new_name or not new_deadline:
+            flash('Precisa preencher todos os campos obrigatórios.', 'error')
+            return redirect(url_for('task.update_task', task_id=task_id))
+
         deadline_date = None
         if new_deadline:
             deadline_date = datetime.strptime(new_deadline, '%Y-%m-%dT%H:%M')

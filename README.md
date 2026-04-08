@@ -60,5 +60,5 @@ Crie uma um arquivo com o nome `.env` e coloquei as seguintes variáveis:
 ### Bibliotecas a serem baixadas
 Copie o codigo abaixo no terminal, dentro do ambiente `(venv_desenvolvimento)`:
 ```
-pip install flask flask-sqlalchemy pymysql python-dotenv flask-migrate
+pip install flask flask-sqlalchemy pymysql python-dotenv flask-migrate cryptography
 ```

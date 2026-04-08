@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for, session
+from flask import request, render_template, redirect, url_for, session, flash
 
 from src.models import ActionsType, HistoryActions, User
 from src.extentions import db
@@ -29,6 +29,12 @@ def register():
 def login():
     if request.method == 'POST':
         nome_digitado = request.form.get('name')
+        
+        # Verifica se o usuário existe e está ativo
+        if not nome_digitado:
+            flash('Por favor, insira um nome de usuário.', 'error')
+            return redirect(url_for('user.login'))
+
         user = User.query.filter_by(name=nome_digitado).first()
         if user and user.is_active:
             session['user_id'] = user.id
@@ -46,6 +52,12 @@ def update_user(user_id):
     user = User.query.get_or_404(user_id)
     if request.method == 'POST':
         new_name = request.form.get('name')
+
+        # Verifica se o campo de nome foi preenchido
+        if not new_name:
+            flash('O nome do usuário não pode ser vazio.', 'error')
+            return redirect(url_for('user.update_user', user_id=user_id))
+        
         user.name = new_name
         action = HistoryActions(
             actionsType = ActionsType.UPDATE,
