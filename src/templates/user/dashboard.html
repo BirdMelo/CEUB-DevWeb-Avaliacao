@@ -20,8 +20,12 @@
             <p><strong>Nome:</strong> {{ user.name }}</p>
             <p><strong>Data de Criação:</strong> {{ user.created_at.strftime('%d/%m/%Y') }}</p>
             <div>
-                <button id="btnAlterUser">Alterar Informações</button>
-                <button id="btnDeleteUser">Excluir Conta</button>
+                <form action="{{ url_for('user.update_user', user_id=user.id) }}" method="POST">
+                    <button id="btnAlterUser">Alterar Informações</button>
+                </form>
+                <form action="{{ url_for('user.delete_user', user_id=user.id) }}" method="POST" style="display:inline;">
+                    <button id="btnDeleteUser" onclick="return confirm('Tem certeza que deseja excluir sua conta?');">Excluir Conta</button>
+                </form>
             </div>
         </section>
         <hr>

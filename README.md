@@ -182,7 +182,7 @@ Ou execultar no terminal, dentro do ambiente `(venv_desenvolvimento)` o comando 
 python run.py
 ```
 ---
-**Versão Atual**: 1.5.1
+**Versão Atual**: 2.0.1
 
 **Autor**: João Pedro de Melo Naves
 

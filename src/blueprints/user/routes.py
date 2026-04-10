@@ -39,15 +39,18 @@ def login():
         if user and user.is_active:
             session['user_id'] = user.id
             return redirect(url_for('user.dashboard'))
+        
         elif user and not user.is_active:
-            
-            return 'Esse usuário está inativo. Por favor, entre em contato com o suporte.'
+            flash('Sua conta está desativada. Por favor, entre em contato com o suporte.', 'error')
+            return redirect(url_for('user.login'))
+
         else:
-            return 'Usuário não encontrado. Por favor, verifique o nome e tente novamente.'
+            flash('Usuário não encontrado. Por favor, tente novamente.', 'error')
+            return redirect(url_for('user.login'))
     return render_template('user/login.html')
 
 #UPDATE
-@bp.route('/update/<int:user_id>', methods=['POST', 'GET']) #Permitir GET para facilitar testes, mas será modificado para só POST updates futuros
+@bp.route('/update/<int:user_id>', methods=['POST', 'GET'])
 def update_user(user_id):
     user = User.query.get_or_404(user_id)
     if request.method == 'POST':
@@ -70,7 +73,7 @@ def update_user(user_id):
     return render_template('user/update.html', user=user)
 
 #DELETE
-@bp.route('/delete/<int:user_id>', methods=['POST', 'GET']) #Permitir GET para facilitar testes, mas será modificado para só POST updates futuros
+@bp.route('/delete/<int:user_id>', methods=['POST'])
 def delete_user(user_id):
     user = User.query.get_or_404(user_id)
     user.is_active = False  # Marcar o usuário como inativo em vez de deletar
