@@ -23,17 +23,30 @@
         <br>
 
         <div>
-            <label for="deadLine">Início (Opcional):</label><br>
-            <input type="datetime-local" id="deadLine" name="deadLine">
+            <label for="startTime">Início*:</label><br>
+            <input type="time" id="startTime" name="startTime" required>
         </div>
         <br>
         
         <div>
-            <label for="deadLine">Prazo Final*:</label><br>
-            <input type="datetime-local" id="deadLine" name="deadLine" required>
+            <label for="endTime">Fim*:</label><br>
+            <input type="time" id="endTime" name="endTime" required>
         </div>
         <br>
-        
+        <div>
+            <label for="weakday">Dia da Semana*:</label><br>
+            <select id="weakday" name="weakday" required>
+                <option value="">Selecione um dia</option>
+                <option value="MONDAY">Segunda-feira</option>
+                <option value="TUESDAY">Terça-feira</option>
+                <option value="WEDNESDAY">Quarta-feira</option>
+                <option value="THURSDAY">Quinta-feira</option>
+                <option value="FRIDAY">Sexta-feira</option>
+                <option value="SATURDAY">Sábado</option>
+                <option value="SUNDAY">Domingo</option>
+            </select>
+        </div>
+        <br>
         <button type="submit">Guardar Rotina</button>
         <a href="{{ url_for('user.dashboard') }}">Cancelar</a>
         

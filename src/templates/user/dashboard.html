@@ -27,37 +27,63 @@
         <hr>
         <section id="section__tasks">
             <h3>Suas Rotinas</h3>
-            <ul id="task_list">
-                {% if rotinas %}
-                    {% for rotina in rotinas if rotina.is_active %}
-                    <li class="task_item">
-                        <div>
-                            <h4 class="task_item__name">{{ rotina.name }}</h4>
-                            <p class="task_item__startTime">{{ rotina.startTime.strftime('%d/%m/%Y') }}</p>
-                            <p class="task_item__deadLine">{{ rotina.deadLine.strftime('%d/%m/%Y') }}</p>
-                        </div>
-                        <div>
-                            <a href="{{ url_for('task.update_task', task_id=rotina.id) }}">
-                                <button class="task_item__edit_btn">Editar</button>
-                            </a>
-                            <form action="{{ url_for('task.delete_task', task_id=rotina.id) }}" method="POST">
-                                <button class="task_item__delete_btn" onclick="return confirm('Tem certeza que deseja excluir esta rotina?');">Excluir</button>
-                            </form>
-                        </div>
+            
+            {% if rotinas %}
+                {% set dias_semana = [
+                    ('SUNDAY', 'Domingo'),
+                    ('MONDAY', 'Segunda-feira'),
+                    ('TUESDAY', 'Terça-feira'),
+                    ('WEDNESDAY', 'Quarta-feira'),
+                    ('THURSDAY', 'Quinta-feira'),
+                    ('FRIDAY', 'Sexta-feira'),
+                    ('SATURDAY', 'Sábado')
+                ] %}
+                
+                {% for dia_enum, dia_pt in dias_semana %}
+                    <h4 class="day_title">{{ dia_pt }}</h4>
+                    <ul id="task_list__{{ dia_enum }}" class="task_list_day">
+                        
+                        {% for rotina in rotinas if rotina.is_active and rotina.weakday.name == dia_enum %}
+                        <li class="task_item">
+                            <div>
+                                <form action="{{ url_for('task.complete_task', task_id=rotina.id) }}" method="POST">
+                                    <button class="task_item__complete_btn" onclick="return confirm('Marcar esta rotina como concluída?');">Concluir</button>
+                                </form>
+                            </div>
+                            <div>
+                                <h4 class="task_item__name">{{ rotina.name }}</h4>
+                                <p class="task_item__startTime">Início: {{ rotina.startTime.strftime('%H:%M') }}</p>
+                                <p class="task_item__endTime">Fim: {{ rotina.endTime.strftime('%H:%M') }}</p>
+                            </div>
+                            <div>
+                                <a href="{{ url_for('task.update_task', task_id=rotina.id) }}">
+                                    <button class="task_item__edit_btn">Editar</button>
+                                </a>
+                                <form action="{{ url_for('task.delete_task', task_id=rotina.id) }}" method="POST">
+                                    <button class="task_item__delete_btn" onclick="return confirm('Tem certeza que deseja excluir esta rotina?');">Excluir</button>
+                                </form>
+                            </div>
 
-                        {% if rotina.description %}
-                        <details>
-                            <summary>Descrição</summary>
-                            <p class="task_item__description">{{ rotina.description }}</p>
-                        </details>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                {% else %}
-                    <li>Você ainda não tem rotinas cadastradas.</li>
-                {% endif %}
-            </ul>
-            <a href="{{ url_for('task.create_task') }}">Criar Nova Rotina</a>
+                            {% if rotina.description %}
+                            <details>
+                                <summary>Descrição</summary>
+                                <p class="task_item__description">{{ rotina.description }}</p>
+                            </details>
+                            {% endif %}
+                        </li>
+                        {% else %}
+                            <p class="empty_day_msg">Sem rotinas para este dia.</p>
+                        {% endfor %}
+                    </ul>
+                    <hr>
+                {% endfor %}
+
+            {% else %}
+                <p>Você ainda não tem rotinas cadastradas.</p>
+            {% endif %}
+            
+            <br>
+            <a href="{{ url_for('task.create_task') }}"><button class="btn_create">Criar Nova Rotina</button></a>
         </section>
     </main>
     

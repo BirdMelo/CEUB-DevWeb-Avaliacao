@@ -9,6 +9,15 @@ class ActionsType(Enum):
     UPDATE = 'UPDATE'
     DELETE = 'DELETE'
 
+class WeakDay(Enum):
+    SUNDAY = 'SUNDAY'
+    MONDAY = 'MONDAY'
+    TUESDAY = 'TUESDAY'
+    WEDNESDAY = 'WEDNESDAY'
+    THURSDAY = 'THURSDAY'
+    FRIDAY = 'FRIDAY'
+    SATURDAY = 'SATURDAY'
+
 class User(db.Model):
     __tablename__ = 'usuario'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
@@ -21,8 +30,9 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     name = db.Column(db.String(60), nullable=False)
     description = db.Column(db.String(255), nullable=True)
-    startTime = db.Column(db.DateTime(timezone=True), default=func.now(), nullable=False)
-    deadLine = db.Column(db.DateTime(timezone=True), nullable=False)
+    startTime = db.Column(db.Time, nullable=False)
+    endTime = db.Column(db.Time, nullable=False)
+    weakday = db.Column(db.Enum(WeakDay), nullable=False)
     is_active = db.Column(db.Boolean, nullable=False, default=True)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 

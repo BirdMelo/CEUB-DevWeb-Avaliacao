@@ -88,7 +88,8 @@ erDiagram
         int id PK
         varchar(60) name
         datetime startTime
-        datetime deadLine
+        datetime endTime
+        enum weakday "SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY"
         varchar(255) description
         tinyint is_active
         timestamp created_at
