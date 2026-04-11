@@ -1,9 +1,20 @@
-# CONFIGURAÇÃO DA RELAÇÃO COM O BANCO DE DADOS
+"""
+config.py - Este arquivo é responsável por carregar as variáveis de ambiente
+e configurar a aplicação Flask, especialmente a conexão com o banco de dados.
+Ele utiliza a biblioteca python-dotenv para carregar as variáveis de ambiente
+definidas no arquivo .env, e define a classe Config que é usada para configurar a aplicação Flask.
+"""
 
 import os
 from dotenv import load_dotenv
 load_dotenv( interpolate= True )
 class Config:
+    """
+    A classe Config define a URI de conexão com o banco de dados MySQL
+    usando as variáveis de ambiente,
+    além de outras configurações como a chave secreta e
+    o rastreamento de modificações do SQLAlchemy.
+    """
     _user = os.getenv("DB_USER")
     _password = os.getenv("DB_PASSWORD")
     _host = os.getenv("DB_HOST")
