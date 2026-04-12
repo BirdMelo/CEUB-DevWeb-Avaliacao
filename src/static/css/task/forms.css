@@ -1,0 +1,61 @@
+/* 1. Formulário de Rotinas - Inputs */
+.form-task label {
+    font-weight: 600;
+}
+.form-task input, .form-task textarea {
+    padding: 0.4rem;
+    border-radius: var(--borda-arredondada);
+    border: solid 1px var(--cor-primaria);
+}
+.form-task input[type="text"], .form-task textarea {
+    width: 100%;
+}
+.form-task select {
+    padding: 0.4rem;
+    border-radius: var(--borda-arredondada) var(--borda-arredondada) 0px 0px;
+    border: solid 1px var(--cor-primaria);
+    background-color: white;
+}
+.form-task input:focus, .form-task textarea:focus, .form-task select:focus {
+    outline: none;
+    border-color: var(--cor-primaria-hover);
+    box-shadow: 0 0 5px var(--cor-primaria-hover);
+}
+
+/* 2. Formulário de Rotinas - Grupo de Horários */
+.time-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 0.2rem;
+}
+
+.time-group span {
+    font-weight: 600;
+    color: var(--cor-texto-secundario);
+}
+
+/* 3. Formulário de Rotinas - Botões */
+#form-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+#form-buttons a {
+    text-decoration: none;
+    background-color: var(--cor-exit);
+    color: white;
+    padding: 0.4rem 1.0rem;
+    border-radius: var(--borda-botao);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    text-align: center;
+}
+#form-buttons a:hover {
+    background-color: var(--cor-exit-hover);
+}
+#form-buttons a:active {
+    transform: scale(0.98);
+}

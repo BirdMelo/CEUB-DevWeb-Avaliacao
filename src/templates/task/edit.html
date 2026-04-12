@@ -3,59 +3,57 @@
 {% block title %}Editar Rotina{% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/task/edit.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/task/forms.css') }}">
 {% endblock %}
 
 {% block content %}
     <main>
         <h1>Editar Rotina</h1>
-        
-        <form method="POST" class="form-task" action="{{ url_for('task.update_task', task_id=task.id) }}">
+        <div class="cards-container">
+            <form method="POST" class="form-task" action="{{ url_for('task.update_task', task_id=task.id) }}">
             
-            <div>
-                <label for="name">Nome da Rotina*:</label><br>
-                <input type="text" id="name" name="name" maxlength="60" value="{{ task.name }}" required>
-            </div>
-            <br>
-            
-            <div>
-                <label for="description">Descrição:</label><br>
-                <textarea id="description" name="description" maxlength="255" rows="3" cols="30">{{ task.description or '' }}</textarea>
-            </div>
-            <br>
-            
-            <div>
-                <label for="startTime">Prazo Inicial*:</label><br>
-                <input type="time" id="startTime" name="startTime" 
-                    value="{{ task.startTime.strftime('%H:%M') if task.startTime else '' }}" required>
-            </div>
-            <br>
+                <div>
+                    <label for="name">Nome da Rotina*:</label><br>
+                    <input type="text" id="name" name="name" maxlength="60" value="{{ task.name }}" required>
+                </div>
+                <br>
+                
+                <div>
+                    <label for="description">Descrição:</label><br>
+                    <textarea id="description" name="description" maxlength="255" rows="3" cols="30">{{ task.description or '' }}</textarea>
+                </div>
+                <br>
+                <div>
+                    <label>Horário*:</label><br>
+                    <div class="time-group">
+                        <input type="time" id="startTime" name="startTime" required
+                            value="{{ task.startTime.strftime('%H:%M') if task.startTime else '' }}">
+                        <span>até</span>
+                        <input type="time" id="endTime" name="endTime" required
+                            value="{{ task.endTime.strftime('%H:%M') if task.endTime else '' }}">
+                    </div>
+                </div>
+                <br>
 
-            <div>
-                <label for="endTime">Prazo Final*:</label><br>
-                <input type="time" id="endTime" name="endTime" 
-                    value="{{ task.endTime.strftime('%H:%M') if task.endTime else '' }}" required>
-            </div>
-            <br>
+                <div>
+                    <label for="weakday">Dia da Semana*:</label><br>
+                    <select id="weakday" name="weakday" required>
+                        <option value="">Selecione um dia</option>
+                        <option value="MONDAY" {{ 'selected' if task.weakday and task.weakday.name == 'MONDAY' else '' }}>Segunda-feira</option>
+                        <option value="TUESDAY" {{ 'selected' if task.weakday and task.weakday.name == 'TUESDAY' else '' }}>Terça-feira</option>
+                        <option value="WEDNESDAY" {{ 'selected' if task.weakday and task.weakday.name == 'WEDNESDAY' else '' }}>Quarta-feira</option>
+                        <option value="THURSDAY" {{ 'selected' if task.weakday and task.weakday.name == 'THURSDAY' else '' }}>Quinta-feira</option>
+                        <option value="FRIDAY" {{ 'selected' if task.weakday and task.weakday.name == 'FRIDAY' else '' }}>Sexta-feira</option>
+                        <option value="SATURDAY" {{ 'selected' if task.weakday and task.weakday.name == 'SATURDAY' else '' }}>Sábado</option>
+                        <option value="SUNDAY" {{ 'selected' if task.weakday and task.weakday.name == 'SUNDAY' else '' }}>Domingo</option>
+                    </select>
+                </div>
+                <br>
 
-            <div>
-                <label for="weakday">Dia da Semana*:</label><br>
-                <select id="weakday" name="weakday" required>
-                    <option value="">Selecione um dia</option>
-                    <option value="MONDAY" {{ 'selected' if task.weakday and task.weakday.name == 'MONDAY' else '' }}>Segunda-feira</option>
-                    <option value="TUESDAY" {{ 'selected' if task.weakday and task.weakday.name == 'TUESDAY' else '' }}>Terça-feira</option>
-                    <option value="WEDNESDAY" {{ 'selected' if task.weakday and task.weakday.name == 'WEDNESDAY' else '' }}>Quarta-feira</option>
-                    <option value="THURSDAY" {{ 'selected' if task.weakday and task.weakday.name == 'THURSDAY' else '' }}>Quinta-feira</option>
-                    <option value="FRIDAY" {{ 'selected' if task.weakday and task.weakday.name == 'FRIDAY' else '' }}>Sexta-feira</option>
-                    <option value="SATURDAY" {{ 'selected' if task.weakday and task.weakday.name == 'SATURDAY' else '' }}>Sábado</option>
-                    <option value="SUNDAY" {{ 'selected' if task.weakday and task.weakday.name == 'SUNDAY' else '' }}>Domingo</option>
-                </select>
-            </div>
-            <br>
-
-            <button type="submit">Salvar Alterações</button>
-            <a href="{{ url_for('user.dashboard') }}">Cancelar</a>
-            
-        </form>
+                <button type="submit">Salvar Alterações</button>
+                <a href="{{ url_for('user.dashboard') }}">Cancelar</a>
+                
+            </form>
+        </div>
     </main>
 {% endblock %}

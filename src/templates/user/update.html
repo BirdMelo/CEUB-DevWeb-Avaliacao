@@ -1,21 +1,25 @@
 {% extends "base.html" %}
 {% block title %}Atualizar Usuário{% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/update.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/forms.css') }}">
 {% endblock %}
 
 {% block content %}
     <main>
         <h1>Atualizar dados de: {{ user.name }}</h1>
-        
-        <form method="POST" action="{{ url_for('user.update_user', user_id=user.id) }}" class="form-user">
-            <div>
-                <label for="name">Novo Nome:</label><br>
-                <input type="text" id="name" name="name" value="{{ user.name }}" required>
-            </div>
-            <br>
-            <button type="submit">Salvar Alterações</button>
-            <a href="{{ url_for('user.dashboard') }}">Voltar ao Painel</a>
-        </form>
+        <div class="cards-container">
+            <form method="POST" action="{{ url_for('user.update_user', user_id=user.id) }}" class="form-user">
+                <div>
+                    <label for="name">Novo Nome:</label><br>
+                    <input type="text" id="name" name="name" value="{{ user.name }}" required>
+                </div>
+                <br>
+                <div id="form-buttons">
+                    <button type="submit">Salvar Alterações</button>
+                    <a href="{{ url_for('user.dashboard') }}" class="anchor-btn exit btn-footer-right">Voltar ao Painel</a>
+                </div>
+            </form>
+            
+        </div>
     </main>
 {% endblock %}

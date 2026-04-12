@@ -6,6 +6,8 @@
     --cor-primaria: #4f46e5;
     --cor-primaria-hover: #4338ca;
     --cor-fundo-cartao: #ffffff;
+    --cor-exit: #ef4444;
+    --cor-exit-hover: #dc2626;
     
     --sombra-padrao: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --borda-arredondada: 12px;
@@ -24,10 +26,22 @@
 body {
     background-color: var(--cor-fundo);
     color: var(--cor-texto);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+/* 4. Título Principal */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #111827;
 }
 
-/* 4. Classe Global para Botões (Reaproveitável em todo o site!) */
-.btn {
+/* 5. Classe Global para Botões */
+button {
     text-decoration: none;
     background-color: var(--cor-primaria);
     color: white;
@@ -41,10 +55,48 @@ body {
     cursor: pointer;
 }
 
-.btn:hover {
+button:hover {
     background-color: var(--cor-primaria-hover);
 }
 
-.btn:active {
+button:active {
     transform: scale(0.98);
+}
+.exit {
+    background-color: var(--cor-exit);
+    color: white;
+    font-weight: 600;
+}
+.exit:hover {
+    background-color: var(--cor-exit-hover);
+}
+.exit:active {
+    transform: scale(0.98);
+}
+.btn-footer-right {
+    align-self: flex-end;
+    margin-top: 2rem;
+    width: fit-content;
+    display: inline-block;
+}
+/* 6. Classe Global para Links de Botão */
+.anchor-btn {
+    display: inline-block;
+    text-decoration: none;
+    border-radius: var(--borda-botao);
+    border: none;
+    box-shadow: var(--sombra-padrao);
+    padding: 0.4rem 1.0rem;
+}
+/* 7. Classe Global para o Contêiner de Cartões */
+.cards-container {
+    background-color: var(--cor-fundo-cartao);
+    color: var(--cor-texto);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--sombra-padrao);
+    padding: 16px 20px;
+    border-radius: var(--borda-arredondada);
 }

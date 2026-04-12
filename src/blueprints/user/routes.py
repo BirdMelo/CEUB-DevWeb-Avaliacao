@@ -36,7 +36,7 @@ def register():
         db.session.add(action)
 
         db.session.commit()
-        return 'Registration successful!'
+        return redirect(url_for('user.login'))
     return render_template('user/register.html')
 #READ
 @bp.route('/login', methods=['GET', 'POST'])

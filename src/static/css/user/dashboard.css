@@ -1,0 +1,95 @@
+/* 1. header */
+header {
+    text-align: center;
+}
+header hr {
+    margin-bottom: 1rem;
+}
+/* 1. Main */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+/* 2. Botões do Dashboard */
+.userInfo__buttons{
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    margin-top: 3rem;
+}
+
+button {
+    padding: 0.4rem 1.0rem;
+}
+/* 3. Links */
+a {
+    text-decoration: none;
+    background-color: var(--cor-primaria);
+    color: white;
+    padding: 0.4rem 1.0rem;
+    border-radius: var(--borda-botao);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    text-align: center;
+}
+a:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+a:active {
+    transform: scale(0.98);
+}
+
+/* 4. Rotinas */
+#tasks_list {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    width: 100%;
+    overflow-x: auto;
+    padding: 1rem;
+}
+.task_list_day {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.task_item {
+    background-color: var(--cor-fundo);
+    padding: 1rem;
+    border-radius: var(--borda-arredondada);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+}
+.day_column h4 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+form button {
+    width: 100%;
+}
+.task_item__buttons {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+}
+.task_item__description {
+    font-size: 0.9rem;
+    background: var(--cor-fundo-cartao);
+    color: var(--cor-texto);
+    text-align: start;
+    padding: 0.5rem;
+    border-radius: var(--borda-arredondada);
+    border: solid 1px var(--cor-primaria);
+}

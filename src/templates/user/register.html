@@ -2,24 +2,29 @@
 
 {% block title %}Registrar Usuário{% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/forms.css') }}">
 {% endblock %}
 {% block content %}
     <main>
         <h1>Criar uma nova conta</h1>
+        <section class="cards-container">
         
-        <form method="POST" action="{{ url_for('user.register') }}" class="form-user">
-            <div>
-                <label for="name">Seu Nome:</label><br>
-                <input type="text" id="name" name="name" required placeholder="Digite seu nome completo">
-            </div>
-            <br>
-            <button type="submit">Registrar</button>
-        </form>
+            <form method="POST" action="{{ url_for('user.register') }}" class="form-user">
+                <div>
+                    <label for="name">Seu Nome:</label><br>
+                    <input type="text" id="name" name="name" required placeholder="Digite seu nome completo">
+                </div>
+                <br>
+                <button type="submit" class="btn">Registrar</button>
+            </form>
 
-        <br>
-        <a href="{{ url_for('user.login') }}">Já tem uma conta? Faça login aqui.</a>
-        <br>
-        <a href="{{ url_for('home.index') }}">Voltar para o Início</a>
+            <br>
+            <div>
+                <a href="{{ url_for('user.login') }}" class="anchor-btn">Já tem uma conta? Faça login aqui.</a>
+                <br>
+                <a href="{{ url_for('home.index') }}" class="anchor-btn exit btn-footer-right">Voltar para o Início</a>
+            </div>
+
+        </section>
     </main>
 {% endblock %}
