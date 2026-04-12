@@ -182,8 +182,8 @@ Ou execultar no terminal, dentro do ambiente `(venv_desenvolvimento)` o comando 
 python run.py
 ```
 ---
-**Versão Atual**: 2.0.8
+**Versão Atual**: 2.0.9
 
-**Autor**: João Pedro de Melo Naves
+**Autores**: João Pedro de Melo Naves, Vítor Camargo
 
 **Link do Repositório**: [Sistema de Gerenciamento de Rotinas Pessoais](https://github.com/BirdMelo/CEUB-DevWeb-Avaliacao)

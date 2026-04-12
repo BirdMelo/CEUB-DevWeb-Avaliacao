@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS `db_rotinas`.`usuario` (
   `name` VARCHAR(150) NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_usuario_name` (`name`))
 ENGINE = InnoDB;
 
 
@@ -155,6 +156,35 @@ CREATE TABLE IF NOT EXISTS `db_rotinas`.`historico_acoes` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Trigger evitar_sobreposicao_rotina
+-- -----------------------------------------------------
+
+DELIMITER //
+
+CREATE TRIGGER evitar_sobreposicao_rotina
+BEFORE INSERT ON `db_rotinas`.`rotina`
+FOR EACH ROW
+BEGIN
+    DECLARE conflitos INT;
+    
+    -- Conta se existe alguma rotina do mesmo usuário, no mesmo dia, que conflita com os horários
+    SELECT COUNT(*) INTO conflitos
+    FROM `db_rotinas`.`rotina`
+    WHERE user_id = NEW.user_id
+      AND weakday = NEW.weakday
+      AND startTime < NEW.endTime
+      AND endTime > NEW.startTime;
+      
+    -- Se achar conflito, ele cancela o INSERT e joga um erro
+    IF conflitos > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Erro: Já existe uma rotina cadastrada neste intervalo de tempo.';
+    END IF;
+END;
+//
+
+DELIMITER ;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

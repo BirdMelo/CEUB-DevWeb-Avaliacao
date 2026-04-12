@@ -37,37 +37,47 @@ def create_task():
         if not name or not endtime or not start_time or not weakday:
             flash('Precisa preencher todos os campos obrigatórios.', 'error')
             return redirect(url_for('task.create_task'))
+        if endtime <= start_time:
+            flash(
+                'O horário final da rotina não pode ser menor ou igual ao inicio do horário.',
+                'error'
+            )
+            return redirect(url_for('task.create_task'))
+        try:
+            user_id = session['user_id']
+            endtime_date = None
+            if endtime:
+                # Converte a string de data para um objeto DateTime do Python
+                endtime_date = datetime.strptime(endtime, '%H:%M').time()
+            start_time_date = None
+            if start_time:
+                # Converte a string de data para um objeto DateTime do Python
+                start_time_date = datetime.strptime(start_time, '%H:%M').time()
+            new_task = Task(
+                name=name,
+                description=description,
+                endTime=endtime_date,
+                startTime=start_time_date,
+                weakday=weakday,
+                user_id=user_id
+            )
+            db.session.add(new_task)
+            db.session.flush()  # Garante que o ID da tarefa seja gerado antes de criar o histórico
 
-        user_id = session['user_id']
-        endtime_date = None
-        if endtime:
-            # Converte a string de data para um objeto DateTime do Python
-            endtime_date = datetime.strptime(endtime, '%H:%M').time()
-        start_time_date = None
-        if start_time:
-            # Converte a string de data para um objeto DateTime do Python
-            start_time_date = datetime.strptime(start_time, '%H:%M').time()
-        new_task = Task(
-            name=name,
-            description=description,
-            endTime=endtime_date,
-            startTime=start_time_date,
-            weakday=weakday,
-            user_id=user_id
-        )
-        db.session.add(new_task)
-        db.session.flush()  # Garante que o ID da tarefa seja gerado antes de criar o histórico
-
-        # Cria um registro de histórico para a criação da tarefa
-        history_entry = HistoryActions(
-            actionsType=ActionsType.CREATE,
-            description=f'Task "{name}" created for user {user.name}.',
-            user_id=user_id,
-            rotina_id=new_task.id
-        )
-        db.session.add(history_entry)
-        db.session.commit()
-        return redirect(url_for('user.dashboard'))
+            # Cria um registro de histórico para a criação da tarefa
+            history_entry = HistoryActions(
+                actionsType=ActionsType.CREATE,
+                description=f'Task "{name}" created for user {user.name}.',
+                user_id=user_id,
+                rotina_id=new_task.id
+            )
+            db.session.add(history_entry)
+            db.session.commit()
+            return redirect(url_for('user.dashboard'))
+        except SQLAlchemyError:
+            db.session.rollback()
+            flash('Esse horário já está ocupado com outra rotina', 'error')
+            return redirect(url_for('task.create_task'))
     return render_template('task/register.html')
 
 #UPDATE
@@ -90,39 +100,48 @@ def update_task(task_id):
         new_end_time = request.form.get('endTime')
         new_start_time = request.form.get('startTime')
         new_weakday = request.form.get('weakday')
-
         # Verifica se os campos obrigatórios estão preenchidos
         if not new_name or not new_end_time or not new_start_time or not new_weakday:
             flash('Precisa preencher todos os campos obrigatórios.', 'error')
             return redirect(url_for('task.update_task', task_id=task_id))
+        if new_end_time <= new_start_time:
+            flash(
+                'O horário final da rotina não pode ser menor ou igual ao inicio do horário.',
+                'error'
+            )
+            return redirect(url_for('task.update_task', task_id = task_id))
+        try:
+            end_time_date = None
+            if new_end_time:
+                end_time_date = datetime.strptime(new_end_time, '%H:%M').time()
+            start_time_date = None
+            if new_start_time:
+                start_time_date = datetime.strptime(new_start_time, '%H:%M').time()
 
-        end_time_date = None
-        if new_end_time:
-            end_time_date = datetime.strptime(new_end_time, '%H:%M').time()
-        start_time_date = None
-        if new_start_time:
-            start_time_date = datetime.strptime(new_start_time, '%H:%M').time()
+            # Atualiza os campos da tarefa
+            task.name = new_name
+            task.description = new_description
+            task.endTime = end_time_date
+            task.startTime = start_time_date
+            task.weakday = new_weakday
+            db.session.add(task)
+            db.session.commit()
 
-        # Atualiza os campos da tarefa
-        task.name = new_name
-        task.description = new_description
-        task.endTime = end_time_date
-        task.startTime = start_time_date
-        task.weakday = new_weakday
-        db.session.add(task)
-        db.session.commit()
+            # Cria um registro de histórico para a atualização da tarefa
+            history_entry = HistoryActions(
+                actionsType=ActionsType.UPDATE,
+                description=f'Task "{new_name}" updated for user {user.name}.',
+                user_id=session['user_id'],
+                rotina_id=task.id
+            )
 
-        # Cria um registro de histórico para a atualização da tarefa
-        history_entry = HistoryActions(
-            actionsType=ActionsType.UPDATE,
-            description=f'Task "{new_name}" updated for user {user.name}.',
-            user_id=session['user_id'],
-            rotina_id=task.id
-        )
-
-        db.session.add(history_entry)
-        db.session.commit()
-        return redirect(url_for('user.dashboard'))
+            db.session.add(history_entry)
+            db.session.commit()
+            return redirect(url_for('user.dashboard'))
+        except SQLAlchemyError:
+            db.session.rollback()
+            flash('Esse horário já está ocupado com outra rotina', 'error')
+            return redirect(url_for('task.update_task', task_id=task_id))
     return render_template('task/edit.html', task=task)
 
 #DELETE

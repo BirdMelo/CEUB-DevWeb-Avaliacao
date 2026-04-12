@@ -8,6 +8,24 @@
     {% block css %}{% endblock %}
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash-msg flash-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
     {% block content %}{% endblock %}
+    <footer>
+        <div>
+            <p>Avitidade avaliativa do curso de Analise e Desenvolvimento de Sistema do Centro Universitário de Brasília - Distrito Federal</p>
+            <span>Autores: João Pedro de Melo Naves e Vítor Camargo</span>
+        </div>
+        <img src="{{ url_for('static', filename='img/logo-ceub.png') }}" alt="logo CEUB">
+    </footer>
 </body>
 </html>

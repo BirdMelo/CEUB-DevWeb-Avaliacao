@@ -41,7 +41,7 @@ class User(db.Model):
     """
     __tablename__ = 'usuario'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    name = db.Column(db.String(150), nullable=False)
+    name = db.Column(db.String(150),unique=True , nullable=False)
     is_active = db.Column(db.Boolean, nullable=False, default=True)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
 

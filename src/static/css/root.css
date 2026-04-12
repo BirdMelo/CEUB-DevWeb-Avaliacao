@@ -30,8 +30,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     min-height: 100vh;
+}
+body::before {
+    content: "";
+    margin-top: auto;
 }
 /* 4. Título Principal */
 h1 {
@@ -99,4 +103,63 @@ button:active {
     box-shadow: var(--sombra-padrao);
     padding: 16px 20px;
     border-radius: var(--borda-arredondada);
+}
+/* 8. Sistema de Alertas */
+.flash-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.flash-msg {
+    padding: 1rem;
+    border-radius: var(--borda-botao);
+    font-weight: 600;
+    text-align: center;
+    box-shadow: var(--sombra-padrao);
+}
+
+/* Mesagem padrão sem categoria */
+.flash-message {
+    background-color: var(--cor-fundo-cartao);
+    border-left: 5px solid var(--cor-texto-secundario);
+    color: var(--cor-texto);
+}
+
+/* Messagem de padrão de error */
+.flash-error {
+    background-color: #fee2e2;
+    border-left: 5px solid var(--cor-exit);
+    color: var(--cor-exit-hover);
+}
+
+/* Messagem de padrão de sucesso */
+.flash-success {
+    background-color: #dcfce7;
+    border-left: 5px solid #22c55e;
+    color: #166534;
+}
+
+/* 9. Footer Geral */
+footer{
+    display: flex;
+    background-color: var(--cor-fundo-cartao);
+    justify-content: space-between;
+    padding: 1rem;
+    width: 100%;
+    align-items: center;
+    margin-top: auto;
+}
+footer img {
+    width: 100px;
+}
+footer p {
+    font-size: 0.6rem;
+}
+footer span {
+    font-size: 0.5rem;
 }

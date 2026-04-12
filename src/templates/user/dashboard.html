@@ -18,9 +18,7 @@
             <p><strong>Nome:</strong> {{ user.name }}</p>
             <p><strong>Data de Criação:</strong> {{ user.created_at.strftime('%d/%m/%Y') }}</p>
             <div class="userInfo__buttons">
-                <form action="{{ url_for('user.update_user', user_id=user.id) }}" method="POST">
-                    <button id="btnAlterUser">Alterar Informações</button>
-                </form>
+                <a href="{{ url_for('user.update_user', user_id=user.id) }}" id="btnAlterUser" class="btn">Alterar Informações</a>
                 <form action="{{ url_for('user.delete_user', user_id=user.id) }}" method="POST" style="display:inline;">
                     <button id="btnDeleteUser" onclick="return confirm('Tem certeza que deseja excluir sua conta?');">Excluir Conta</button>
                 </form>
@@ -59,9 +57,7 @@
                                     <p class="task_item__time">{{ rotina.startTime.strftime('%H:%M') }} - {{ rotina.endTime.strftime('%H:%M') }}</p>
                                 </div>
                                 <div class="task_item__buttons">
-                                    <form action="{{ url_for('task.update_task', task_id=rotina.id) }}" method="GET">
-                                        <button id="task_item__edit_btn" class="btn">Editar</button>
-                                    </form>
+                                    <a href="{{ url_for('task.update_task', task_id=rotina.id) }}" id="task_item__edit_btn">Editar</a>
                                     <form action="{{ url_for('task.delete_task', task_id=rotina.id) }}" method="POST">
                                         <button id="task_item__delete_btn" class="exit" onclick="return confirm('Tem certeza que deseja excluir esta rotina?');">Excluir</button>
                                     </form>

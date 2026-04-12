@@ -24,8 +24,8 @@ def register():
     if request.method == 'POST':
         name = request.form.get('name')
         new_user = User(name=name)
-        isExisting = User.query.filter_by(name=name).first()
-        if isExisting:
+        is_existing = User.query.filter_by(name=name).first()
+        if is_existing:
             flash('Já existe uma conta com este nome.')
             return redirect(url_for('user.register'))
         db.session.add(new_user)
@@ -86,6 +86,10 @@ def update_user(user_id):
         # Verifica se o campo de nome foi preenchido
         if not new_name:
             flash('O nome do usuário não pode ser vazio.', 'error')
+            return redirect(url_for('user.update_user', user_id=user_id))
+        is_existing = User.query.filter_by(name=new_name).first()
+        if is_existing and is_existing.id != user_id:
+            flash('Já existe uma conta com este nome.', 'error')
             return redirect(url_for('user.update_user', user_id=user_id))
         user.name = new_name
         action = HistoryActions(
