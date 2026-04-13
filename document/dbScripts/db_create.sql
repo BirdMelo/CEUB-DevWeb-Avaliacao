@@ -174,7 +174,8 @@ BEGIN
     WHERE user_id = NEW.user_id
       AND weakday = NEW.weakday
       AND startTime < NEW.endTime
-      AND endTime > NEW.startTime;
+      AND endTime > NEW.startTime
+      AND is_active = true;
       
     -- Se achar conflito, ele cancela o INSERT e joga um erro
     IF conflitos > 0 THEN

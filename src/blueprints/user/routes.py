@@ -121,7 +121,7 @@ def delete_user(user_id):
     )
     db.session.add(action)
     db.session.commit()
-    return f"Usuário {user.name} desativado com sucesso! Ele não pode mais fazer login."
+    return redirect(url_for('home.index'))
 
 # ESPAÇO DO USUÁRIO (DASHBOARD)
 

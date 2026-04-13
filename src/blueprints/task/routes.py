@@ -14,6 +14,10 @@ from src.models import Task, HistoryActions, ActionsType, User, Executions
 from src.extentions import db
 from . import bp
 
+# Ignorando avisos do Pylint que entram em conflito com o SQLAlchemy e rotas Flask
+# pylint: disable=singleton-comparison
+# pylint: disable=too-many-return-statements
+
 #CREATE
 @bp.route('/create', methods=['GET', 'POST'])
 def create_task():
@@ -46,6 +50,7 @@ def create_task():
         # Conflito de horário: Verifica se o novo horário de início
         # ou fim da tarefa conflita com outras tarefas do usuário
         conflicting_tasks = Task.query.filter(
+            Task.is_active == True,
             Task.user_id == session['user_id'],
             Task.weakday == weakday,
             Task.startTime < endtime,
@@ -129,6 +134,7 @@ def update_task(task_id):
         # Conflito de horário: Verifica se o novo horário de início
         # ou fim da tarefa conflita com outras tarefas do usuário
         conflicting_tasks = Task.query.filter(
+            Task.is_active == True,
             Task.user_id == session['user_id'],
             Task.weakday == new_weakday,
             Task.startTime < new_end_time,
