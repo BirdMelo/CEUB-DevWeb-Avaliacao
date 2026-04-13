@@ -177,7 +177,7 @@ Ou executar no terminal, dentro do ambiente `(venv_desenvolvimento)` o comando a
 python run.py
 ```
 ---
-**Versão Atual**: 2.0.10
+**Versão Atual**: 2.0.11
 
 **Autores**: João Pedro de Melo Naves, Vítor Camargo
 

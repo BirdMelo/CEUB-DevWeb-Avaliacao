@@ -43,6 +43,22 @@ def create_task():
                 'error'
             )
             return redirect(url_for('task.create_task'))
+        # Conflito de horário: Verifica se o novo horário de início
+        # ou fim da tarefa conflita com outras tarefas do usuário
+        conflicting_tasks = Task.query.filter(
+            Task.user_id == session['user_id'],
+            Task.weakday == weakday,
+            Task.startTime < endtime,
+            Task.endTime > start_time
+        ).first()
+        if conflicting_tasks:
+            flash(
+                'Conflito de horário! Você já possui a rotina "'+
+                conflicting_tasks.name+
+                '" agendada para esse horário.',
+                'error'
+                )
+            return redirect(url_for('task.create_task'))
         try:
             user_id = session['user_id']
             endtime_date = None
@@ -76,7 +92,7 @@ def create_task():
             return redirect(url_for('user.dashboard'))
         except SQLAlchemyError:
             db.session.rollback()
-            flash('Esse horário já está ocupado com outra rotina', 'error')
+            flash('Erro Inesperado', 'error')
             return redirect(url_for('task.create_task'))
     return render_template('task/register.html')
 
@@ -110,6 +126,23 @@ def update_task(task_id):
                 'error'
             )
             return redirect(url_for('task.update_task', task_id = task_id))
+        # Conflito de horário: Verifica se o novo horário de início
+        # ou fim da tarefa conflita com outras tarefas do usuário
+        conflicting_tasks = Task.query.filter(
+            Task.user_id == session['user_id'],
+            Task.weakday == new_weakday,
+            Task.startTime < new_end_time,
+            Task.endTime > new_start_time,
+            Task.id != task_id
+        ).first()
+        if conflicting_tasks:
+            flash(
+                'Conflito de horário! Você já possui a rotina "'+
+                conflicting_tasks.name +
+                '" agendada para esse horário.',
+                'error'
+                )
+            return redirect(url_for('task.update_task', task_id=task_id))
         try:
             end_time_date = None
             if new_end_time:
@@ -140,7 +173,7 @@ def update_task(task_id):
             return redirect(url_for('user.dashboard'))
         except SQLAlchemyError:
             db.session.rollback()
-            flash('Esse horário já está ocupado com outra rotina', 'error')
+            flash('Erro Inesperado', 'error')
             return redirect(url_for('task.update_task', task_id=task_id))
     return render_template('task/edit.html', task=task)
 
