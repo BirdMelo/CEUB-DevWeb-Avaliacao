@@ -11,8 +11,6 @@ Isso gera três consequências graves:
 
 * **Falta de Visibilidade**: Sem um histórico registrado, o indivíduo perde a noção do próprio progresso (não sabe se estudou 2 ou 5 vezes na semana passada).
 
-* **Falta de Visibilidade**: Sem um histórico registrado, o indivíduo perde a noção do próprio progresso (não sabe se estudou 2 ou 5 vezes na semana passada).
-
 ### Proposta
 Este projeto consiste em uma aplicação backend desenvolvida para o gerenciamento de rotinas pessoais. O sistema permite que os usuários se cadastrem na plataforma e registrem suas atividades recorrentes diárias, como momentos de estudo, práticas de exercícios físicos, entre outras. 
 ### Funcionalidades
@@ -70,46 +68,42 @@ para a visualização do modelo conceitual na IDE VS Code, é recomendado baixar
 
 ```mermaid
 erDiagram
-    %% Relacionamentos
-    usuario ||--o{ rotina : "cria / possui"
-    rotina ||--o{ execucoes : "tem"
-    usuario ||--o{ historico_acoes : "realiza"
-    rotina ||--o{ historico_acoes : "registra"
+    USUARIO ||--o{ ROTINA : "cadastra"
+    USUARIO ||--o{ HISTORICO_ACOES : "realiza"
+    ROTINA ||--o{ EXECUCOES : "possui"
+    ROTINA ||--o{ HISTORICO_ACOES : "gera"
 
-    %% Tabelas e Atributos
-    usuario {
+    USUARIO {
         int id PK
-        varchar(150) name
+        string name UK
         timestamp created_at
         boolean is_active
     }
 
-    rotina {
+    ROTINA {
         int id PK
-        varchar(60) name
-        datetime startTime
-        datetime endTime
-        enum weakday "SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY"
-        varchar(255) description
-        tinyint is_active
-        timestamp created_at
+        string name
+        string description
+        time startTime
+        time endTime
+        enum weakday
+        boolean is_active
         int user_id FK
     }
 
-    execucoes {
+    EXECUCOES {
         int id PK
         date date
-        timestamp created_at
         int rotina_id FK
     }
 
-    historico_acoes {
+    HISTORICO_ACOES {
         int id PK
-        enum actionsType "CREATE, UPDATE, DELETE"
-        varchar(255) description
+        enum actionsType
+        string description
         timestamp created_at
         int user_id FK
-        int rotina_id FK "Nullable"
+        int rotina_id FK
     }
 ```
 
@@ -120,6 +114,7 @@ erDiagram
 * **login (/user/login)**: página pra entrar com uma conta já existente
 * **update (/user/update)**: página para alterar os dados do usuário
 * **delete (/user/delete/{int:user_id})**: página para deletar o usuário
+* **dashboard (/user/dashboard/{int:user_id})**: página para gerenciamento de informações e rotinas do usuário
 ### Rotina
 * **create (/task/create)**: página para fazer cadastro da rotina
 * **update (/task/update)**: página para editar a rotina
@@ -168,7 +163,7 @@ Crie uma um arquivo com o nome `.env` e coloquei as seguintes variáveis:
 * SECRET_KEY = {chave_secreta}
 
 ### Bibliotecas a serem baixadas
-as biblitecas que serão baixadas no projeto estaram disponiveis no arquivo [requirement.txt](/requirements.txt)
+As bibliotecas que serão baixadas no projeto estarão disponíveis no arquivo [requirement.txt](/requirements.txt)
 
 Copie o codigo abaixo no terminal, dentro do ambiente `(venv_desenvolvimento)`:
 ```
@@ -177,12 +172,12 @@ pip install -r requirements.txt
 ### Execução do programa
 Para executar o programa só precisa clicar no botão de **run** no arquivo [run.py](/run.py)
 
-Ou execultar no terminal, dentro do ambiente `(venv_desenvolvimento)` o comando abaixo:
+Ou executar no terminal, dentro do ambiente `(venv_desenvolvimento)` o comando abaixo:
 ```
 python run.py
 ```
 ---
-**Versão Atual**: 2.0.9
+**Versão Atual**: 2.0.10
 
 **Autores**: João Pedro de Melo Naves, Vítor Camargo
 

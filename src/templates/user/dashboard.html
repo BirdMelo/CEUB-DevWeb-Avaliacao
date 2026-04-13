@@ -45,7 +45,7 @@
                         <h4 class="day_title">{{ dia_pt }}</h4>
                         
                         <ul id="task_list__{{ dia_enum }}" class="task_list_day">
-                            {% for rotina in rotinas if rotina.is_active and rotina.weakday.name == dia_enum %}
+                            {% for rotina in rotinas | sort(attribute='startTime') if rotina.is_active and rotina.weakday.name == dia_enum %}
                             <li class="task_item">
                                 <div class="task_item__conclude">
                                     <form action="{{ url_for('task.complete_task', task_id=rotina.id) }}" method="POST">
