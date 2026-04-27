@@ -16,7 +16,7 @@ def create_app(test_config=None):
         app.config.from_object(Config)
     else:
         app.config.update(test_config)
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') or 'test-key'
 
     # inicializa ORM e migrations
     db.init_app(app)
